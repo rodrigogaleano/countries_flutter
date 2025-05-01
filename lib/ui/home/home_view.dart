@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/di/injector.dart';
 import 'cubit/home_cubit.dart';
+import 'widgets/country_item_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,27 +26,27 @@ class _HomeViewState extends State<HomeView> {
     return BlocProvider(
       create: (context) => cubit,
       child: Scaffold(
-        body: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            if (state is HomeLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (state is HomeFailure) {
-              return const Center(child: Text('Error'));
-            }
-
-            if (state is HomeSuccess) {
-              return ListView.builder(
-                itemCount: state.countries.length,
-                itemBuilder: (context, index) {
-                  return ListTile(title: Text(state.countries[index].name));
-                },
-              );
-            }
-
-            return const SizedBox.shrink();
-          },
+        body: CustomScrollView(
+          slivers: [
+            const SliverAppBar(title: Text('Home')),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return switch (state) {
+                  HomeLoading() => const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
+                  HomeFailure() => const SliverFillRemaining(child: Center(child: Text('Error'))),
+                  HomeSuccess(countries: final countries) => SliverPadding(
+                    padding: const EdgeInsets.all(20),
+                    sliver: SliverList.separated(
+                      itemCount: countries.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 20),
+                      itemBuilder: (_, index) => CountryItemView(country: countries[index]),
+                    ),
+                  ),
+                  _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
+                };
+              },
+            ),
+          ],
         ),
       ),
     );

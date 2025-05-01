@@ -55,7 +55,7 @@ packages:
     source: hosted
     version: "9.0.0"
   bloc_lint:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: bloc_lint
       sha256: fcf80877faf222089436696681375bc3bc9ca023305b69180ea81b449134fc65

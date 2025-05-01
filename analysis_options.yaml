@@ -6,6 +6,11 @@ analyzer:
   plugins:
     - bloc
 
+bloc:
+  rules:
+    - prefer_cubit
+    - avoid_flutter_imports
+
 linter:
   rules:
     file_names: true # https://dart-lang.github.io/linter/lints/file_names.html
