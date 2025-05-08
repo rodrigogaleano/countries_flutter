@@ -18,7 +18,6 @@ dependencies:
   pretty_dio_logger: ^1.4.0
 
   # Bloc
-  equatable: ^2.0.7
   flutter_bloc: ^9.1.0
 
   # Injector

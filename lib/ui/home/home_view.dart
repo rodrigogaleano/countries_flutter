@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../config/di/injector.dart';
+import '../core/ui/error_placeholder.dart';
+import '../core/ui/loading_placeholder.dart';
 import 'cubit/home_cubit.dart';
 import 'widgets/country_item_view.dart';
 
@@ -22,32 +24,43 @@ class _HomeViewState extends State<HomeView> {
   }
 
   @override
+  void dispose() {
+    cubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => cubit,
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            const SliverAppBar(title: Text('Home')),
-            BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                return switch (state) {
-                  HomeLoading() => const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
-                  HomeFailure() => const SliverFillRemaining(child: Center(child: Text('Error'))),
-                  HomeSuccess(countries: final countries) => SliverPadding(
-                    padding: const EdgeInsets.all(20),
-                    sliver: SliverList.separated(
-                      itemCount: countries.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 20),
-                      itemBuilder: (_, index) => CountryItemView(country: countries[index]),
-                    ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(title: Text('Home')),
+          BlocBuilder<HomeCubit, HomeState>(
+            bloc: cubit,
+            builder: (_, state) {
+              if (state is HomeLoading) {
+                return const LoadingPlaceholder();
+              }
+
+              if (state is HomeFailure) {
+                return const ErrorPlaceholder(message: 'Error');
+              }
+
+              if (state is HomeSuccess) {
+                return SliverPadding(
+                  padding: const EdgeInsets.all(20),
+                  sliver: SliverList.separated(
+                    itemCount: state.countries.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 20),
+                    itemBuilder: (_, index) => CountryItemView(country: state.countries[index]),
                   ),
-                  _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
-                };
-              },
-            ),
-          ],
-        ),
+                );
+              }
+
+              return const SliverToBoxAdapter(child: SizedBox.shrink());
+            },
+          ),
+        ],
       ),
     );
   }
