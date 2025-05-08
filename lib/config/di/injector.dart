@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import 'modules/core_module.dart';
+import 'modules/country_details_module.dart';
 import 'modules/home_module.dart';
 
 Injector injector = _ServiceLocator();
@@ -24,7 +25,7 @@ class _ServiceLocator implements Injector {
 
   @override
   void initializeDependencies() {
-    final appModules = <AppModuleProtocol>[CoreModule(), HomeModule()];
+    final appModules = <AppModuleProtocol>[CoreModule(), HomeModule(), CountryDetailsModule()];
 
     for (final module in appModules) {
       module.registerDependencies();

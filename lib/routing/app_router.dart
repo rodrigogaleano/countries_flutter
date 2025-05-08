@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import '../domain/models/country.dart';
 import '../ui/country_details/country_details_view.dart';
 import '../ui/home/home_view.dart';
 import 'routes.dart';
@@ -16,7 +17,9 @@ final class AppRouter {
           GoRoute(
             name: Routes.countryDetails,
             path: Routes.countryDetails,
-            builder: (_, __) => const CountryDetailsView(),
+            builder: (_, state) {
+              return CountryDetailsView(country: state.extra as Country);
+            },
           ),
         ],
       ),
