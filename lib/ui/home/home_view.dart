@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../config/di/injector.dart';
+import '../../routing/routes.dart';
 import '../core/ui/error_placeholder.dart';
 import '../core/ui/loading_placeholder.dart';
 import 'cubit/home_cubit.dart';
@@ -52,7 +54,12 @@ class _HomeViewState extends State<HomeView> {
                   sliver: SliverList.separated(
                     itemCount: state.countries.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 20),
-                    itemBuilder: (_, index) => CountryItemView(country: state.countries[index]),
+                    itemBuilder: (_, index) {
+                      return CountryItemView(
+                        country: state.countries[index],
+                        onTap: () => context.pushNamed(Routes.countryDetails, extra: state.countries[index]),
+                      );
+                    },
                   ),
                 );
               }

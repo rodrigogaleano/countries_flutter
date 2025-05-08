@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'config/di/injector.dart';
-import 'ui/home/home_view.dart';
+import 'routing/app_router.dart';
 
 void main() {
   injector.initializeDependencies();
 
-  runApp(MaterialApp(title: 'Countries', home: const HomeView()));
+  runApp(MaterialApp.router(routerConfig: AppRouter.router));
 }
