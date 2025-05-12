@@ -58,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
               }
 
               if (state is HomeFailure) {
-                return const ErrorPlaceholder(message: 'Error');
+                return const ErrorPlaceholder(message: 'Something went wrong :(');
               }
 
               if (state is HomeSuccess) {
