@@ -9,6 +9,14 @@ class InfoItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(visible: isVisible, child: Row(children: [Text(title), Text(value)]));
+    return Visibility(
+      visible: isVisible,
+      child: Row(
+        children: [
+          Text(title, style: const TextStyle(fontSize: 18)),
+          Text(value, style: const TextStyle(fontSize: 18)),
+        ],
+      ),
+    );
   }
 }

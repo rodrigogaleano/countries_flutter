@@ -45,7 +45,8 @@ class _CountryDetailsViewState extends State<CountryDetailsView> {
                   padding: const EdgeInsets.all(20),
                   sliver: SliverList.list(
                     children: [
-                      Image.network(state.country.flagPath),
+                      Image.network(state.country.flagPath, fit: BoxFit.cover),
+                      SizedBox(height: 20),
                       InfoItemView(title: 'Name: ', value: state.country.name),
                       InfoItemView(
                         title: 'Capital: ',

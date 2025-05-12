@@ -36,7 +36,20 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(title: Text('Home')),
+          SliverAppBar(
+            title: Text('Home'),
+            bottom: PreferredSize(
+              preferredSize: Size(double.infinity, 60),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  onChanged: cubit.searchCountries,
+                  onTapUpOutside: (_) => FocusScope.of(context).unfocus(),
+                  decoration: InputDecoration(hintText: 'Search by name', border: OutlineInputBorder()),
+                ),
+              ),
+            ),
+          ),
           BlocBuilder<HomeCubit, HomeState>(
             bloc: cubit,
             builder: (_, state) {
