@@ -8,6 +8,7 @@ import '../core/ui/error_placeholder.dart';
 import '../core/ui/loading_placeholder.dart';
 import 'cubit/home_cubit.dart';
 import 'widgets/country_item_view.dart';
+import 'widgets/filter_bottom_sheet.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -34,6 +35,10 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.travel_explore),
+        onPressed: () => FilterBottomSheet.show(context, onFilterSelected: cubit.searchCountriesByRegion),
+      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

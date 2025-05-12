@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/repositories/countries_repository.dart';
+import '../../../domain/enums/region_enum.dart';
 import '../../../domain/models/country.dart';
 import '../../../utils/debounce.dart';
 import '../../../utils/result.dart';
@@ -46,6 +47,23 @@ class HomeCubit extends Cubit<HomeState> {
           emit(HomeFailure());
       }
     });
+  }
+
+  Future<void> searchCountriesByRegion(String region) async {
+    if (region == RegionEnum.all.name) {
+      await fetchCountries();
+      return;
+    }
+
+    emit(HomeLoading());
+    final result = await _countriesRepository.searchCountriesByRegion(region);
+
+    switch (result) {
+      case Ok():
+        emit(HomeSuccess(countries: result.value));
+      case Error():
+        emit(HomeFailure());
+    }
   }
 
   @override
